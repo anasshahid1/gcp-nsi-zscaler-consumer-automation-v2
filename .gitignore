@@ -1,0 +1,33 @@
+.DS_Store
+
+# Terraform local working files
+**/.terraform/
+**/.terraform.lock.hcl
+**/terraform.tfvars
+**/*.tfvars
+**/*.tfvars.json
+**/terraform.tfstate
+**/terraform.tfstate.*
+**/tfplan
+**/tfplan.*
+**/*_override.tf
+**/*_override.tf.json
+**/override.tf
+**/override.tf.json
+**/crash.log
+**/crash.*.log
+
+# Local logs
+*.log
+
+# Env / secrets
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.kubeconfig
+*credentials*.json
+*service-account*.json

@@ -1,0 +1,65 @@
+# Copy this file to terraform.tfvars and replace every customer-specific value.
+
+# Naming prefix used to create customer-side resources.
+# Example result: acme-nsi-consumer-policy
+deploy_key = "customer-nsi"
+
+# Customer project where the consumer-side VPC and endpoint group are deployed.
+project_id = "customer-project-id"
+
+# Customer Google Cloud organization ID where security profiles are created.
+organization_id = "123456789012"
+
+# Billing/quota project for organization-level Network Security resources.
+# Usually the same as project_id unless the customer uses a separate billing project.
+billing_project_id = "customer-project-id"
+
+# Default provider region. NSI resources in this template use global location.
+region = "us-central1"
+
+# Location for NSI resources. Current NSI examples commonly use global.
+location = "global"
+
+# Existing customer VPC network name. Terraform reads this network; it does not create it.
+consumer_network = "customer-vpc-network"
+
+# NSI traffic interception flow:
+# Firewall Rule -> Security Profile Group -> Security Profile ->
+# Intercept Endpoint Group -> Intercept Deployment Group (Zscaler ZTGW)
+
+# Zscaler-provided Intercept Deployment Group.
+# This value is copied from the Zscaler portal. It is managed by Zscaler in the
+# producer project and represents the ZTGW infrastructure.
+intercept_deployment_group = "projects/zscaler-producer-project/locations/global/interceptDeploymentGroups/customer-deployment-group"
+
+# Customer-created Intercept Endpoint Group.
+# This global resource is created in the consumer project and binds to the
+# Zscaler-provided Intercept Deployment Group above.
+endpoint_group = "customer-nsi-intercept-endpoint-group"
+
+# Customer-created Intercept Endpoint Group Association.
+# This associates the Intercept Endpoint Group with the customer VPC network.
+endpoint_group_association = "customer-nsi-intercept-endpoint-group-association"
+
+# Customer-created organization-level Custom Intercept Security Profile.
+# This links inspection behavior to the customer's Intercept Endpoint Group.
+security_profile = "customer-nsi-custom-intercept-profile"
+
+# Customer-created organization-level Security Profile Group.
+# Firewall policy rules reference this object to steer traffic to inspection.
+security_profile_group = "customer-nsi-security-profile-group"
+
+# Customer-created global firewall policy and VPC association.
+consumer_fw_policy             = "customer-nsi-consumer-policy"
+consumer_fw_policy_association = "customer-nsi-consumer-policy-association"
+
+# Firewall policy rule priorities.
+ingress_rule_priority = 100
+egress_rule_priority  = 101
+
+# Traffic match criteria.
+ingress_source_ranges     = ["10.1.0.0/16"]
+egress_destination_ranges = ["0.0.0.0/0"]
+
+# Enable firewall logging on created policy rules.
+enable_firewall_logging = true
