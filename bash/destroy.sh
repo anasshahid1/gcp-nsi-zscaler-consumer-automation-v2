@@ -54,7 +54,8 @@ source "$CONFIG_FILE"
 : "${EGRESS_RULE_PRIORITY:?Missing EGRESS_RULE_PRIORITY}"
 
 default_if_empty CONSUMER_FW_POLICY "${DEPLOY_KEY}-consumer-policy"
-default_if_empty CONSUMER_FW_POLICY_ASSOC "${DEPLOY_KEY}-consumer-policy-association"
+default_if_empty CONSUMER_FW_POLICY_ASSOCIATION "${CONSUMER_FW_POLICY_ASSOC:-}"
+default_if_empty CONSUMER_FW_POLICY_ASSOCIATION "${DEPLOY_KEY}-consumer-policy-association"
 default_if_empty SECURITY_PROFILE "${DEPLOY_KEY}-custom-intercept-profile"
 default_if_empty SECURITY_PROFILE_GROUP "${DEPLOY_KEY}-security-profile-group"
 default_if_empty ENDPOINT_GROUP "${DEPLOY_KEY}-intercept-endpoint-group"
@@ -101,7 +102,7 @@ run gcloud beta network-security intercept-endpoint-groups delete "${ENDPOINT_GR
 
 log "Deleting firewall policy association"
 run gcloud compute network-firewall-policies associations delete \
-  --name="${CONSUMER_FW_POLICY_ASSOC}" \
+  --name="${CONSUMER_FW_POLICY_ASSOCIATION}" \
   --firewall-policy="${CONSUMER_FW_POLICY}" \
   --global-firewall-policy \
   --project="${PROJECT_ID}" \

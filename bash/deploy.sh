@@ -80,7 +80,8 @@ require_var INGRESS_SOURCE_RANGES
 require_var EGRESS_DESTINATION_RANGES
 
 default_if_empty CONSUMER_FW_POLICY "${DEPLOY_KEY}-consumer-policy"
-default_if_empty CONSUMER_FW_POLICY_ASSOC "${DEPLOY_KEY}-consumer-policy-association"
+default_if_empty CONSUMER_FW_POLICY_ASSOCIATION "${CONSUMER_FW_POLICY_ASSOC:-}"
+default_if_empty CONSUMER_FW_POLICY_ASSOCIATION "${DEPLOY_KEY}-consumer-policy-association"
 default_if_empty SECURITY_PROFILE "${DEPLOY_KEY}-custom-intercept-profile"
 default_if_empty SECURITY_PROFILE_GROUP "${DEPLOY_KEY}-security-profile-group"
 default_if_empty ENDPOINT_GROUP "${DEPLOY_KEY}-intercept-endpoint-group"
@@ -90,7 +91,7 @@ SECURITY_PROFILE_GROUP_RESOURCE="organizations/${ORGANIZATION_ID}/locations/${LO
 ENDPOINT_GROUP_RESOURCE="projects/${PROJECT_ID}/locations/${LOCATION}/interceptEndpointGroups/${ENDPOINT_GROUP}"
 
 LOGGING_FLAG=()
-if [[ "${ENABLE_FIREWALL_LOGGING:-false}" == "true" ]]; then
+if [[ "${ENABLE_FIREWALL_LOGGING:-true}" == "true" ]]; then
   LOGGING_FLAG=(--enable-logging)
 fi
 
@@ -128,7 +129,7 @@ run gcloud beta network-security intercept-endpoint-groups create "${ENDPOINT_GR
 step "2" "Associate base resources with the consumer VPC"
 log "Associating firewall policy with consumer VPC"
 run gcloud compute network-firewall-policies associations create \
-  --name="${CONSUMER_FW_POLICY_ASSOC}" \
+  --name="${CONSUMER_FW_POLICY_ASSOCIATION}" \
   --firewall-policy="${CONSUMER_FW_POLICY}" \
   --global-firewall-policy \
   --network="${CONSUMER_NETWORK}" \

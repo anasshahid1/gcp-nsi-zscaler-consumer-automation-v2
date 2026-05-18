@@ -23,6 +23,7 @@
 # Env / secrets
 .env
 .env.*
+bash/config.env
 *.pem
 *.key
 *.p12
