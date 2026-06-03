@@ -82,6 +82,18 @@ variable "ingress_rule_priority" {
   default     = 100
 }
 
+variable "allow_ingress_rule_priority" {
+  description = "Priority for the allow-list ingress firewall policy rule (evaluated before the intercept rule)."
+  type        = number
+  default     = 90
+}
+
+variable "allow_ingress_source_ranges" {
+  description = "Source CIDR ranges that should be allowed without Zscaler inspection."
+  type        = list(string)
+  default     = ["34.117.59.81/32"]
+}
+
 variable "egress_rule_priority" {
   description = "Priority for the egress firewall policy rule."
   type        = number

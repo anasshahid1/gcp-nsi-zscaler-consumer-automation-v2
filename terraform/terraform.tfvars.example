@@ -54,12 +54,14 @@ consumer_fw_policy             = "customer-nsi-consumer-policy"
 consumer_fw_policy_association = "customer-nsi-consumer-policy-association"
 
 # Firewall policy rule priorities.
-ingress_rule_priority = 100
-egress_rule_priority  = 101
+ingress_rule_priority       = 100
+egress_rule_priority        = 101
+allow_ingress_rule_priority = 90
 
 # Traffic match criteria.
-ingress_source_ranges     = ["10.1.0.0/16"]
-egress_destination_ranges = ["0.0.0.0/0"]
+ingress_source_ranges       = ["10.1.0.0/16"]
+egress_destination_ranges   = ["0.0.0.0/0"]
+allow_ingress_source_ranges = ["34.117.59.81/32"]
 
 # Enable firewall logging on created policy rules.
 enable_firewall_logging = true

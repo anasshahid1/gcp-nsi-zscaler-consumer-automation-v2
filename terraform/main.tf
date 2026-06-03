@@ -84,6 +84,28 @@ resource "google_network_security_security_profile_group" "consumer" {
   ]
 }
 
+resource "google_compute_network_firewall_policy_rule" "ingress_allow" {
+  project         = var.project_id
+  firewall_policy = google_compute_network_firewall_policy.consumer.name
+  priority        = var.allow_ingress_rule_priority
+  direction       = "INGRESS"
+  action          = "allow"
+  enable_logging  = var.enable_firewall_logging
+  description     = "Allow trusted ingress sources without Zscaler inspection."
+
+  match {
+    src_ip_ranges = var.allow_ingress_source_ranges
+
+    layer4_configs {
+      ip_protocol = "all"
+    }
+  }
+
+  depends_on = [
+    google_compute_network_firewall_policy_association.consumer
+  ]
+}
+
 resource "google_compute_network_firewall_policy_rule" "ingress_intercept" {
   project                = var.project_id
   firewall_policy        = google_compute_network_firewall_policy.consumer.name
