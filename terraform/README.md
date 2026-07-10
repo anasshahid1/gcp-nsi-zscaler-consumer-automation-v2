@@ -21,8 +21,6 @@ terraform plan
 terraform apply
 ```
 
-For reference only, `terraform.tfvars.sample-lab` shows how the original Bash test values map into Terraform variables.
-
 ## NSI Resource Mapping
 
 Customer projects connect to the Zscaler ZTGW service through NSI Security Profiles. The Terraform variables expose the four key resources directly:

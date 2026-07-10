@@ -178,8 +178,6 @@ cp terraform.tfvars.example terraform.tfvars
 vi terraform.tfvars
 ```
 
-For internal reference only, `terraform.tfvars.sample-lab` maps the original Bash test values into Terraform syntax. Customers should use `terraform.tfvars.example`.
-
 Update:
 
 ```hcl

@@ -28,7 +28,6 @@ gcp-nsi-zscaler-consumer-automation/
 │   ├── main.tf
 │   ├── outputs.tf
 │   ├── terraform.tfvars.example
-│   ├── terraform.tfvars.sample-lab
 │   ├── variables.tf
 │   └── versions.tf
 └── docs/
