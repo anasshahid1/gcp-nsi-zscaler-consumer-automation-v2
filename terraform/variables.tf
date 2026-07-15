@@ -1,3 +1,9 @@
+# variable "impersonate_service_account" {
+#   description = "Service account email to impersonate when calling GCP APIs. The caller must have roles/iam.serviceAccountTokenCreator on this SA."
+#   type        = string
+#   default     = "ztgw-sa@customer-project-id.iam.gserviceaccount.com"
+# }
+
 variable "deploy_key" {
   description = "Naming prefix used to create customer-side resources."
   type        = string
@@ -8,9 +14,26 @@ variable "project_id" {
   type        = string
 }
 
-variable "organization_id" {
-  description = "Customer Google Cloud organization ID where security profiles are created."
+variable "security_profile_scope" {
+  description = "Parent level for security profile and security profile group resources. Use 'project' (default) for project-level deployment or 'organization' for org-level deployment (requires organization_id)."
   type        = string
+  default     = "project"
+
+  validation {
+    condition     = contains(["project", "organization"], var.security_profile_scope)
+    error_message = "security_profile_scope must be either 'project' or 'organization'."
+  }
+}
+
+variable "organization_id" {
+  description = "Customer Google Cloud organization ID. Required only when security_profile_scope is 'organization'."
+  type        = string
+  default     = ""
+
+  validation {
+    condition     = var.security_profile_scope != "organization" || var.organization_id != ""
+    error_message = "organization_id must be provided when security_profile_scope is 'organization'."
+  }
 }
 
 variable "billing_project_id" {

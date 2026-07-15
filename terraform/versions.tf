@@ -15,15 +15,17 @@ terraform {
 }
 
 provider "google" {
-  project               = var.project_id
-  region                = var.region
-  billing_project       = var.billing_project_id
-  user_project_override = true
+  project                     = var.project_id
+  region                      = var.region
+  billing_project             = var.billing_project_id
+  user_project_override       = true
+  # impersonate_service_account = var.impersonate_service_account
 }
 
 provider "google-beta" {
-  project               = var.project_id
-  region                = var.region
-  billing_project       = var.billing_project_id
-  user_project_override = true
+  project                     = var.project_id
+  region                      = var.region
+  billing_project             = var.billing_project_id
+  user_project_override       = true
+  # impersonate_service_account = var.impersonate_service_account
 }

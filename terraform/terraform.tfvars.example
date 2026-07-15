@@ -1,5 +1,9 @@
 # Copy this file to terraform.tfvars and replace every customer-specific value.
 
+# Service account to impersonate when calling GCP APIs.
+# The caller must have roles/iam.serviceAccountTokenCreator on this SA.
+impersonate_service_account = "ztgw-sa@customer-project-id.iam.gserviceaccount.com"
+
 # Naming prefix used to create customer-side resources.
 # Example result: acme-nsi-consumer-policy
 deploy_key = "customer-nsi"

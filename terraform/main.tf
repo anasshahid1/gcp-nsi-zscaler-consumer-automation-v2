@@ -6,7 +6,7 @@ locals {
   endpoint_group                 = var.endpoint_group != "" ? var.endpoint_group : "${var.deploy_key}-intercept-endpoint-group"
   endpoint_group_association     = var.endpoint_group_association != "" ? var.endpoint_group_association : "${var.deploy_key}-intercept-endpoint-group-association"
 
-  organization_parent = "organizations/${var.organization_id}"
+  security_profile_parent = var.security_profile_scope == "organization" ? "organizations/${var.organization_id}" : "projects/${var.project_id}"
 }
 
 # Terraform builds this configuration as a graph. Resources that reference another
@@ -56,7 +56,7 @@ resource "google_network_security_security_profile" "custom_intercept" {
   provider = google-beta
 
   name        = local.security_profile
-  parent      = local.organization_parent
+  parent      = local.security_profile_parent
   location    = var.location
   description = "Custom intercept security profile for Zscaler GCP NSI integration."
   type        = "CUSTOM_INTERCEPT"
@@ -74,7 +74,7 @@ resource "google_network_security_security_profile_group" "consumer" {
   provider = google-beta
 
   name                     = local.security_profile_group
-  parent                   = local.organization_parent
+  parent                   = local.security_profile_parent
   location                 = var.location
   description              = "Security profile group for Zscaler GCP NSI integration."
   custom_intercept_profile = google_network_security_security_profile.custom_intercept.id
